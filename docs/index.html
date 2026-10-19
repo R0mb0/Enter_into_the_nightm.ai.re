@@ -111,14 +111,14 @@
         /* Phase 2: the screen bleeds red and the pentagram appears with it.
            When the screen is red the pentagram turns black, when it is black the pentagram is red:
            it is always readable. Under 3 flashes a second, to stay safe for photosensitive people. */
-        body.possessed { animation: blood 0.4s steps(1, end) infinite; }
+        body.possessed { animation: blood 0.5s steps(1, end) infinite; }
         @keyframes blood {
             0%   { background-color: #000; }
             50%  { background-color: #8a0000; }
         }
         .pentagram-active {
             visibility: visible;
-            animation: sigil-in 0.18s ease-out forwards, sigil 0.4s steps(1, end) infinite;
+            animation: sigil-in 0.18s ease-out forwards, sigil 0.5s steps(1, end) infinite;
         }
         @keyframes sigil-in {
             from { opacity: 0; transform: translate(-50%, -50%) scale(1.15); }
@@ -1061,7 +1061,9 @@
     <script>
         // --- CONFIGURATION ---
         const DESTINATION_URL = "https://r0mb0.github.io/Enter_into_the_nightmaire/";
+        const PHASE_SECONDS = 1.5;   // how long each screen lasts: Loading, System error, Leave this place
         // ----------------------
+        const ms = PHASE_SECONDS * 1000;
 
         const text = document.getElementById('text');
         const wrapper = document.getElementById('wrapper');
@@ -1072,25 +1074,25 @@
             text.setAttribute('data-text', t);
         }
 
-        // Phase 1: slight anomaly (after 2 seconds)
+        // Phase 1: slight anomaly
         setTimeout(() => {
             setText("S̸Y̶S̷T̸E̶M̵ ̷E̶R̵R̶O̷R̸");
             document.body.style.backgroundColor = "#050000";
-        }, 2000);
+        }, ms);
 
-        // Phase 2: full possession (after 4 seconds): red screen and pentagram together
+        // Phase 2: full possession: red screen and pentagram together
         setTimeout(() => {
             setText("L̷E̸A̶V̵E̶ ̸T̷H̵I̶S̶ ̵P̷L̸A̷C̶E̵");
             document.body.style.backgroundColor = "";
             document.body.classList.add('possessed');
             wrapper.classList.add('shake-active');
             pentagram.classList.add('pentagram-active');
-        }, 4000);
+        }, 2 * ms);
 
-        // Phase 3: go to the game (after 6.4 seconds). replace(): the back button does not return here
+        // Phase 3: go to the game. replace(): the back button does not return here
         setTimeout(() => {
             window.location.replace(DESTINATION_URL);
-        }, 6400);
+        }, 3 * ms);
     </script>
 
 </body>
